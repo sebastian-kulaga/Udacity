@@ -1,6 +1,6 @@
 """
 Script created for Udacity Data Scientist Foundations for Credit Suisse course.
-It loads bike share data from city provided by user (Chicago, New York, Washington),
+It loads bikeshare data from city provided by user (Chicago, New York, Washington),
 filters it and calculates various stats.
 Three CSV files provided by Udacity course are needed to run this script without any issues.
 """
@@ -165,7 +165,8 @@ def station_stats(df):
 
     station_tuple = df.groupby(['Start Station', 'End Station']).size().idxmax()
     station_count = df.groupby(['Start Station', 'End Station']).size().max()
-    output_string = f'Most frequent combination of start and end station is: {station_tuple[0]}, and: {station_tuple[1]}'
+    output_string = f'Most frequent combination of start and end station is: {station_tuple[0]}, ' \
+                    f'and: {station_tuple[1]}'
     print(output_string)
     print(f'This trip was done {station_count} times')
     print("\nThis took %s seconds." % (time.time() - start_time))
@@ -245,7 +246,7 @@ def user_stats(df):
     if 'Birth Year' in df.columns:
         most_recent_birth_date = df['Birth Year'].max()
         earliest_birth_date = df['Birth Year'].min()
-        print(f'{int(earliest_birth_date)} is erilest birth date.')
+        print(f'{int(earliest_birth_date)} is earliest birth date.')
         print(f'{int(most_recent_birth_date)} is most recent birth date.')
         get_most_common(df, 'Birth Year')
     else:
