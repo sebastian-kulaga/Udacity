@@ -1,3 +1,10 @@
+"""
+Script created for Udacity Data Scientist Foundations for Credit Suisse course.
+It loads bike share data from city provided by user (Chicago, New York, Washington),
+filters it and calculates various stats.
+Three CSV files provided by Udacity course are needed to run this script without any issues.
+"""
+
 import time
 import pandas as pd
 
@@ -6,6 +13,7 @@ CITY_DATA = {'chicago': 'chicago.csv',
              'washington': 'washington.csv'}
 MONTH_LIST = ['january', 'february', 'march', 'april', 'may', 'june', 'all']
 DAY_LIST = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'all']
+
 
 def get_filters():
     """
@@ -18,7 +26,6 @@ def get_filters():
     """
     print('Hello! Let\'s explore some US bikeshare data!')
     print('Please provide from which city you would like to get data.')
-    city = None
     month = 'all'
     day = 'all'
     city_list = list(CITY_DATA.keys())
@@ -49,13 +56,12 @@ def check_and_return_if_in_list(checking_list, input_flag):
         (str) output - city, filter option, day or month picked by user if present in list, 
                        or None if not
     """
-    input_dictionary = {'city' : 'Type Chicago, New York or Washington: ', 'filter' : 'Type yes or no: ',
-                        'month' : 'Type All, January, February, March, April, May, June. ' \
-                            'You can use lowercase and short names for months: ',
-                        'day' : 'Type all, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday or Sunday. ' \
-                            'You can use lowercase and short names for days: '}
+    input_dictionary = {'city': 'Type Chicago, New York or Washington: ', 'filter': 'Type yes or no: ',
+                        'month': 'Type All, January, February, March, April, May, June. '
+                                 'You can use lowercase and short names for months: ',
+                        'day': 'Type all, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday or Sunday. '
+                               'You can use lowercase and short names for days: '}
 
-    output = None
     while True:
         user_input = input(input_dictionary[input_flag]).lower()
         if input_flag == 'city':
@@ -64,10 +70,10 @@ def check_and_return_if_in_list(checking_list, input_flag):
         output_list = [d for d in checking_list if d.startswith(user_input)]
         if output_list:
             output = output_list[0]
-            splited_output = output.split(' ')
+            split_output = output.split(' ')
             output = output.capitalize()
-            if len(splited_output) > 1:
-                capitalized_words = [w.capitalize() for w in splited_output]
+            if len(split_output) > 1:
+                capitalized_words = [w.capitalize() for w in split_output]
                 output = " ".join(capitalized_words)
             print('You have picked {}'.format(output))
             break
@@ -157,8 +163,8 @@ def station_stats(df):
 
     get_most_common(df, 'End Station')
 
-    station_tuple = df.groupby(['Start Station','End Station']).size().idxmax()
-    station_count = df.groupby(['Start Station','End Station']).size().max()
+    station_tuple = df.groupby(['Start Station', 'End Station']).size().idxmax()
+    station_count = df.groupby(['Start Station', 'End Station']).size().max()
     output_string = f'Most frequent combination of start and end station is: {station_tuple[0]}, and: {station_tuple[1]}'
     print(output_string)
     print(f'This trip was done {station_count} times')
@@ -188,7 +194,7 @@ def trip_duration_stats(df):
     print('-' * 40)
 
 
-def get_calculated_time(time, flag):
+def get_calculated_time(input_time, flag):
     """
     Calculates and prints most common month/day/hour of travel.
     
@@ -196,16 +202,17 @@ def get_calculated_time(time, flag):
         (int) time - int that contains seconds
         (str) flag - string to print correct calculation - sum or avg of travels
     """
-    input_seconds = time
-    day = time // (24 * 3600)
-    time = time % (24 * 3600)
-    hour = time // 3600
-    time %= 3600
-    minutes = time // 60
-    time %= 60
-    seconds = time
+    input_seconds = input_time
+    day = input_time // (24 * 3600)
+    input_time = input_time % (24 * 3600)
+    hour = input_time // 3600
+    input_time %= 3600
+    minutes = input_time // 60
+    input_time %= 60
+    seconds = input_time
     print(f'{flag} time is {input_seconds} seconds')
     print(f'That is {day} days, {hour} hours, {minutes} minutes and {seconds} seconds')
+
 
 def user_stats(df):
     """
@@ -233,7 +240,7 @@ def user_stats(df):
             print(f'{gender_index[i]}, total count: {gender_values[i]}')
     else:
         print('There is no gender data to display.')
-    
+
     print('Displaying birth date values')
     if 'Birth Year' in df.columns:
         most_recent_birth_date = df['Birth Year'].max()
