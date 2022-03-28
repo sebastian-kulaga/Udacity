@@ -255,6 +255,31 @@ def user_stats(df):
     print('-' * 40)
 
 
+def display_dataframe(df):
+    """
+    Displays five rows of data, waits for user input and potentially displays another.
+    Works in loop.
+
+    Args:
+        (DataFrame) df - input DataFrame with bike data, that is used for all calculations
+    """
+    filter_list = ['yes', 'no']
+    starting_row = 0
+    print('Do you want to see 5 rows of data?')
+    while True:
+        user_input = check_and_return_if_in_list(filter_list, 'filter')
+        if user_input == 'no':
+            return
+        else:
+            print("Displaying 5 rows of data:")
+            # Use pandas option to set max displayed rows and columns (5 rows and all cols)
+            with pd.option_context('display.max_rows', 5, 'display.max_columns', None):
+                print(df.loc[starting_row:starting_row + 4])
+            starting_row = starting_row + 5
+            print('-' * 40)
+            print('Do you want to see another 5?')
+
+
 def main():
     while True:
         city, month, day = get_filters()
@@ -263,7 +288,7 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
-
+        display_dataframe(df)
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
             break
